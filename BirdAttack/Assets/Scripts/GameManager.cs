@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [System.Serializable]
-public class FloatEvent : UnityEvent<float>
-{ }
+public class FloatEvent : UnityEvent<float> { }
 
 public class GameManager : MonoBehaviour
 {
@@ -24,39 +23,67 @@ public class GameManager : MonoBehaviour
     public FloatEvent OnHit = new FloatEvent();
     [HideInInspector]
     public UnityEvent OnGameOver = new UnityEvent();
+    private bool _gameOver = false;
+    public bool GameOver
+    {
+        get { return _gameOver; }
+    }
+
     [SerializeField]
-    private float lives = 10f;
+    private float _lives = 10f;
     public float Lives
     {
-        get { return lives; }
+        get { return _lives; }
     }
+
+    [SerializeField]
+    private bool _cheats = true;
 
     // Start is called before the first frame update
     void Awake()
     {
         _instance = this;
         OnHit.AddListener(Hit);
+
+        OnGameOver.AddListener(() => _gameOver = true);
     }
 
     public void Hit(float livesLost)
     {
-        lives -= livesLost;
-        Debug.Log(lives);
+        _lives -= livesLost;
         CheckGameOver();
     }
 
     private bool CheckGameOver()
     {
-        if (lives <= 0)
+        if (_lives <= 0)
         {
             // Gameover
             OnGameOver.Invoke();
-            Debug.Log("You died!!");
             return true;
         }
         else
         {
             return false;
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!_cheats)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            _lives++;
+            OnHit.Invoke(0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+            OnHit.Invoke(1);
+
+        if (Input.GetKeyDown(KeyCode.E))
+            OnHit.Invoke(_lives);
     }
 }

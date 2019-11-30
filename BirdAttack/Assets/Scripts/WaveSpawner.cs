@@ -5,6 +5,17 @@ using UnityEngine.Events;
 
 public class WaveSpawner : MonoBehaviour
 {
+    private static WaveSpawner _instance;
+    public static WaveSpawner Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new WaveSpawner();
+            return _instance;
+        }
+    }
+
     [SerializeField]
     private GameObject _particleSystem;
 
@@ -24,13 +35,19 @@ public class WaveSpawner : MonoBehaviour
     private float _consumeSegments = 4f;
     private bool _consuming = false;
 
-    public float waves = 1f;
+    public float waves = 5f;
     private float _waveCounter = 0;
+    public float WaveCounter
+    {
+        get { return _waveCounter; }
+    }
 
     public static UnityEvent OnConsume = new UnityEvent();
 
-    private void Start()
+    // Start is called before the first frame update
+    void Awake()
     {
+        _instance = this;
     }
 
     // Update is called once per frame

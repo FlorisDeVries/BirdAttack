@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7368075410645435198}
   - component: {fileID: 7368075410645435199}
   - component: {fileID: 7368075410645435192}
+  - component: {fileID: 111405007423937629}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -59,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: bec574c5e1702e94b90f1c5ff85f88ec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,3 +94,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &111405007423937629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7368075410645435193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1647da5f229b8664ba52cee8d8713c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverMat: {fileID: 2100000, guid: a56c71507247e6449b4e9a5078a47c56, type: 2}
