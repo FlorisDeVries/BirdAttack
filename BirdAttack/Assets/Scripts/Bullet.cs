@@ -6,6 +6,8 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField]
     private GameObject _destroyEffect;
+    [SerializeField]
+    private float _damage = 4f;
 
     private Transform _target;
     public Transform Target
@@ -34,8 +36,10 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == "Enemy")
+        Enemy enemy = other.GetComponent<Enemy>();
+        if (enemy)
         {
+            enemy.Hit(_damage);
             Destroy(this.gameObject);
             Instantiate(_destroyEffect, transform.position, transform.rotation);
         }

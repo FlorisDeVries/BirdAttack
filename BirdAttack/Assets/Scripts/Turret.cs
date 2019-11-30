@@ -6,9 +6,8 @@ public class Turret : MonoBehaviour
 {
     // Tracking
     [SerializeField]
-    private Transform _currentTarget;
-    private Queue<Transform> _targets = new Queue<Transform>();
-    private List<Transform> _targetList = new List<Transform>();
+    private Enemy _currentEnemy;
+    private List<Enemy> _targetList = new List<Enemy>();
     private Quaternion _targetRotation;
 
     // Shooting
@@ -23,18 +22,25 @@ public class Turret : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_currentTarget != null)
+        if (_currentEnemy != null)
         {
-            _targetRotation = Quaternion.LookRotation(_currentTarget.position - transform.position);
-            transform.rotation = Quaternion.Lerp(transform.rotation, _targetRotation, 5f * Time.deltaTime);
-
-            if (_fireInterval < _fireTimer)
+            if (ValidTarget())
             {
-                _fireTimer = 0;
-                Bullet b = Instantiate(_bulletPrefab, _shootingPoint.position, _shootingPoint.rotation).GetComponent<Bullet>();
-                b.Target = _currentTarget;
+                _targetRotation = Quaternion.LookRotation(_currentEnemy.transform.position - transform.position);
+                transform.rotation = Quaternion.Lerp(transform.rotation, _targetRotation, 5f * Time.deltaTime);
+
+                if (_fireInterval < _fireTimer)
+                {
+                    _fireTimer = 0;
+                    Bullet b = Instantiate(_bulletPrefab, _shootingPoint.position, _shootingPoint.rotation).GetComponent<Bullet>();
+                    b.Target = _currentEnemy.transform;
+                }
+                _fireTimer += Time.deltaTime;
             }
-            _fireTimer += Time.deltaTime;
+            else
+            {
+                _currentEnemy = null;
+            }
         }
         else
             NextTarget();
@@ -42,25 +48,42 @@ public class Turret : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == "Enemy")
+        Enemy enemy = other.GetComponent<Enemy>();
+        if (enemy)
         {
-            _targetList.Add(other.transform);
+            if (_currentEnemy != null && enemy.DistanceTravelled > _currentEnemy.DistanceTravelled)
+            {
+                _targetList.Add(_currentEnemy);
+                _currentEnemy = enemy;
+            }
+            else
+            {
+                _targetList.Add(enemy);
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        _targetList.Remove(other.transform);
-        if (_currentTarget == other.transform)
-            _currentTarget = null;
+        Enemy enemy = other.GetComponent<Enemy>();
+        if (enemy)
+            _targetList.Remove(enemy);
+        if (_currentEnemy != null && _currentEnemy.transform == other.transform)
+            _currentEnemy = null;
     }
 
     private void NextTarget()
     {
+        _targetList.Sort((t1, t2) => t1.DistanceTravelled.CompareTo(t2.DistanceTravelled));
         if (_targetList.Count != 0)
         {
-            _currentTarget = _targetList[0];
-            _targetList.Remove(_currentTarget);
+            _currentEnemy = _targetList[0];
+            _targetList.Remove(_currentEnemy);
         }
+    }
+
+    private bool ValidTarget()
+    {
+        return _currentEnemy.IsAlive;
     }
 }

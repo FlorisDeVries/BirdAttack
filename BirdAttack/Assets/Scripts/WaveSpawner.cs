@@ -24,7 +24,7 @@ public class WaveSpawner : MonoBehaviour
     private float _consumeSegments = 4f;
     private bool _consuming = false;
 
-    public float waves = 5f;
+    public float waves = 1f;
     private float _waveCounter = 0;
 
     public static UnityEvent OnConsume = new UnityEvent();
