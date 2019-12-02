@@ -5,25 +5,25 @@ using UnityEngine.EventSystems;
 
 public class HoverRecoller : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private Material _originalMat;
+    protected Material _originalMat;
     [SerializeField]
-    private Material _hoverMat;
+    protected Material _hoverMat;
 
-    private Renderer _renderer;
+    protected Renderer _renderer;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         _renderer = GetComponent<Renderer>();
         _originalMat = _renderer.material;
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public virtual void OnPointerEnter(PointerEventData eventData)
     {
         _renderer.material = _hoverMat;
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public virtual void OnPointerExit(PointerEventData eventData)
     {
         _renderer.material = _originalMat;
     }

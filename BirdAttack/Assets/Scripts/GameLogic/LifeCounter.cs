@@ -11,12 +11,12 @@ public class LifeCounter : MonoBehaviour
     void Start()
     {
         _text = GetComponent<Text>();
-        GameManager.Instance.OnHit.AddListener(UpdateText);
+        GameManager.Instance.UpdateLifes.AddListener(UpdateText);
         _text.text = GameManager.Instance.Lives.ToString();
     }
 
     private void UpdateText(float damage)
     {
-        _text.text = GameManager.Instance.Lives.ToString();
+        _text.text = damage.ToString();
     }
 }

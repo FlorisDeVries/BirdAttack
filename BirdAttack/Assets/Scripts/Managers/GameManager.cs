@@ -6,21 +6,12 @@ using UnityEngine.Events;
 [System.Serializable]
 public class FloatEvent : UnityEvent<float> { }
 
-public class GameManager : MonoBehaviour
+public class GameManager : AwakeSingleton<GameManager>
 {
-    private static GameManager _instance;
-    public static GameManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-                _instance = new GameManager();
-            return _instance;
-        }
-    }
-
     [HideInInspector]
     public FloatEvent OnHit = new FloatEvent();
+    [HideInInspector]
+    public FloatEvent UpdateLifes = new FloatEvent();
     [HideInInspector]
     public UnityEvent OnGameOver = new UnityEvent();
     private bool _gameOver = false;
@@ -40,9 +31,8 @@ public class GameManager : MonoBehaviour
     private bool _cheats = true;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        _instance = this;
         OnHit.AddListener(Hit);
 
         OnGameOver.AddListener(() => _gameOver = true);
@@ -51,6 +41,7 @@ public class GameManager : MonoBehaviour
     public void Hit(float livesLost)
     {
         _lives -= livesLost;
+        UpdateLifes.Invoke(_lives);
         CheckGameOver();
     }
 

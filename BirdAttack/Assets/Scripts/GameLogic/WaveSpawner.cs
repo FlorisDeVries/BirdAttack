@@ -3,19 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class WaveSpawner : MonoBehaviour
+public class WaveSpawner : AwakeSingleton<WaveSpawner>
 {
-    private static WaveSpawner _instance;
-    public static WaveSpawner Instance
-    {
-        get
-        {
-            if (_instance == null)
-                _instance = new WaveSpawner();
-            return _instance;
-        }
-    }
-
     [SerializeField]
     private GameObject _particleSystem;
 
@@ -23,7 +12,7 @@ public class WaveSpawner : MonoBehaviour
     private GameObject _baseEnemy;
 
     public float spawnRate = 5f;
-    private float _spawnTimer = 1;
+    private float _spawnTimer = 0f;
     [SerializeField]
     private float _spawnInterval = 1f;
     private bool _spawning = false;
@@ -44,12 +33,6 @@ public class WaveSpawner : MonoBehaviour
 
     public static UnityEvent OnConsume = new UnityEvent();
 
-    // Start is called before the first frame update
-    void Awake()
-    {
-        _instance = this;
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -66,6 +49,9 @@ public class WaveSpawner : MonoBehaviour
                 StartCoroutine(ConsumeFood());
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.S))
+            Instantiate(_baseEnemy, transform.position, transform.rotation);
     }
 
     private void SpawnWave()

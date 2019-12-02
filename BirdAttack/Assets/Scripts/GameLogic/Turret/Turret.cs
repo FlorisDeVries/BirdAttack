@@ -15,9 +15,14 @@ public class Turret : MonoBehaviour
     private GameObject _bulletPrefab;
     [SerializeField]
     private Transform _shootingPoint;
-
+    [SerializeField]
     private float _fireInterval = .5f;
     private float _fireTimer = 0;
+
+    private void Start()
+    {
+        _fireTimer = _fireInterval;
+    }
 
     // Update is called once per frame
     void Update()
@@ -33,7 +38,7 @@ public class Turret : MonoBehaviour
                 {
                     _fireTimer = 0;
                     Bullet b = Instantiate(_bulletPrefab, _shootingPoint.position, _shootingPoint.rotation).GetComponent<Bullet>();
-                    b.Target = _currentEnemy.transform;
+                    b.Target = _currentEnemy;
                 }
                 _fireTimer += Time.deltaTime;
             }
@@ -55,10 +60,12 @@ public class Turret : MonoBehaviour
             {
                 _targetList.Add(_currentEnemy);
                 _currentEnemy = enemy;
+                SortList();
             }
             else
             {
                 _targetList.Add(enemy);
+                SortList();
             }
         }
     }
@@ -74,7 +81,6 @@ public class Turret : MonoBehaviour
 
     private void NextTarget()
     {
-        _targetList.Sort((t1, t2) => t1.DistanceTravelled.CompareTo(t2.DistanceTravelled));
         if (_targetList.Count != 0)
         {
             _currentEnemy = _targetList[0];
@@ -85,5 +91,10 @@ public class Turret : MonoBehaviour
     private bool ValidTarget()
     {
         return _currentEnemy.IsAlive;
+    }
+
+    protected void SortList()
+    {
+        _targetList.Sort((t1, t2) => t2.DistanceTravelled.CompareTo(t1.DistanceTravelled));
     }
 }

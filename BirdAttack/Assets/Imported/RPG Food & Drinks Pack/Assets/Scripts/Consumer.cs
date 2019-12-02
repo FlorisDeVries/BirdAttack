@@ -24,11 +24,6 @@ public class Consumer : MonoBehaviour
         WaveSpawner.OnConsume.AddListener(Consume);
     }
 
-    private void Update() {
-        if(Input.GetMouseButtonDown(0))
-            Consume();
-    }
-
     void Consume()
     {
         if (currentIndex != portions.Length)
