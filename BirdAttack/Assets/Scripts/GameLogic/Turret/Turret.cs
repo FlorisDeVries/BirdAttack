@@ -19,6 +19,14 @@ public class Turret : MonoBehaviour
     private float _fireInterval = .5f;
     private float _fireTimer = 0;
 
+    // Building
+    [SerializeField]
+    private float _cost;
+    public float Cost
+    {
+        get { return _cost; }
+    }
+
     private void Start()
     {
         _fireTimer = _fireInterval;

@@ -44,6 +44,8 @@ public class Enemy : MonoBehaviour
     // Damage
     [SerializeField]
     private float _damage = 1;
+    [SerializeField]
+    private float _reward = 10;
     private Goal _goal;
 
     private void Start()
@@ -128,6 +130,7 @@ public class Enemy : MonoBehaviour
         _isAlive = false;
         GetComponent<CapsuleCollider>().enabled = false;
         _animator.SetTrigger("Die");
+        CurrencyManager.Instance.AddToBank(_reward);
         StartCoroutine(Despawn());
 
         GetComponentInChildren<Canvas>().enabled = false;
