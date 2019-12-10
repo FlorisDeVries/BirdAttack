@@ -52,7 +52,7 @@ MonoBehaviour:
     type: 3}
   _shootingPoint: {fileID: 8870027956672228143}
   _fireInterval: 2
-  _cost: 100
+  _cost: 125
 --- !u!135 &2845922915146120559
 SphereCollider:
   m_ObjectHideFlags: 0

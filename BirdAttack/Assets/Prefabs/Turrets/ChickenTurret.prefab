@@ -160,7 +160,7 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 2984850616632172381, guid: d07fa3739ec0215459a4971f52a45de6,
     type: 3}
   _shootingPoint: {fileID: 1567799255}
-  _fireInterval: 0.5
+  _fireInterval: 0.75
   _cost: 75
 --- !u!135 &6658031905979785623
 SphereCollider:

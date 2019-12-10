@@ -2950,6 +2950,7 @@ MonoBehaviour:
   _speed: 2
   _modelTrans: {fileID: 4212700793095169504}
   _damage: 1
+  _reward: 5
 --- !u!54 &1141504232
 Rigidbody:
   m_ObjectHideFlags: 0

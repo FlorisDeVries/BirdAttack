@@ -74,7 +74,7 @@ public class WaveSpawner : AwakeSingleton<WaveSpawner>
 
     IEnumerator SpawnEnemies(GameObject prefab)
     {
-        for (int i = 0; i < _waveCounter; i++)
+        for (int i = 0; i < _waveCounter + 1; i++)
         {
             Instantiate(_baseEnemy, transform.position, transform.rotation);
             yield return new WaitForSeconds(_spawnInterval);

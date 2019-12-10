@@ -284,9 +284,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _destroyEffect: {fileID: 5116313643687883701, guid: 541060ace30ef1849880f50064368ca7,
     type: 3}
-  _damage: 50
+  _damage: 40
   _speed: 5
-  _explosionRadius: 2
+  _explosionRadius: 5
 --- !u!65 &511815100170960534
 BoxCollider:
   m_ObjectHideFlags: 0
