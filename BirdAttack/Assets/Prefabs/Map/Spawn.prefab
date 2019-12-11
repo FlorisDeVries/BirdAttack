@@ -50,10 +50,13 @@ MonoBehaviour:
     type: 3}
   _baseEnemy: {fileID: 8868527816863262575, guid: 4745c8d008224f746b285e7009405f78,
     type: 3}
+  _bossEnemy: {fileID: 4731581957660322212, guid: 372ee202e48886246ac26ef64408edee,
+    type: 3}
   spawnRate: 5
-  _spawnInterval: 0.1
+  _spawnInterval: 1
   _consumeInterval: 1
-  waves: 10
+  waves: 2
+  _waveText: {fileID: 0}
 --- !u!1001 &2433862232627695616
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -108,5 +108,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _destroyEffect: {fileID: 8391922354574938323, guid: 51eca620b5e70114ab18d51f5e329c31,
     type: 3}
-  _damage: 7.5
+  _damage: 12.5
   _speed: 20

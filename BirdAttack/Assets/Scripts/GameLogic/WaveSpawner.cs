@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class WaveSpawner : AwakeSingleton<WaveSpawner>
@@ -11,6 +12,8 @@ public class WaveSpawner : AwakeSingleton<WaveSpawner>
     [SerializeField]
     private GameObject _baseEnemy;
 
+    [SerializeField]
+    private GameObject _bossEnemy;
     public float spawnRate = 5f;
     private float _spawnTimer = 0f;
     [SerializeField]
@@ -33,6 +36,9 @@ public class WaveSpawner : AwakeSingleton<WaveSpawner>
 
     public static UnityEvent OnConsume = new UnityEvent();
 
+    [SerializeField]
+    private Text _waveText;
+
     // Update is called once per frame
     void Update()
     {
@@ -49,16 +55,25 @@ public class WaveSpawner : AwakeSingleton<WaveSpawner>
                 StartCoroutine(ConsumeFood());
             }
         }
+        else
+        {
+            if (!_spawning)
+            {
+                _spawning = true;
+                Instantiate(_bossEnemy, transform.position, transform.rotation);
+            }
+        }
 
-        if(Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S))
             Instantiate(_baseEnemy, transform.position, transform.rotation);
     }
 
     private void SpawnWave()
     {
         _waveCounter++;
+        _waveText.text = _waveCounter.ToString();
         _spawning = true;
-        StartCoroutine(SpawnEnemies(_baseEnemy));
+        StartCoroutine(SpawnEnemies());
     }
 
     IEnumerator ConsumeFood()
@@ -72,11 +87,13 @@ public class WaveSpawner : AwakeSingleton<WaveSpawner>
         _consuming = false;
     }
 
-    IEnumerator SpawnEnemies(GameObject prefab)
+    IEnumerator SpawnEnemies()
     {
         for (int i = 0; i < _waveCounter + 1; i++)
         {
-            Instantiate(_baseEnemy, transform.position, transform.rotation);
+            Enemy enemy = Instantiate(_baseEnemy, transform.position, transform.rotation).GetComponent<Enemy>();
+            enemy.SetHP(enemy.MaxHP * ((int)(_waveCounter / 10) + 1));
+            enemy.Reward *= ((int)(_waveCounter / 10) + 1);
             yield return new WaitForSeconds(_spawnInterval);
         }
         yield return new WaitForSeconds(_consumeInterval);

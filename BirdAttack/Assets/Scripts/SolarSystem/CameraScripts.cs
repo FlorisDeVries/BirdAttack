@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraScripts : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class CameraScripts : MonoBehaviour
     public static float zoomLevel = 30;
 
     float startChangeDist = 1000;
+
+    public GameObject PlanetToEnter;
+    public Button ButtonToEnable;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +51,8 @@ public class CameraScripts : MonoBehaviour
     public void ChangeFollow(int i)
     {
         following = gs.GetPlanetByInt(i);
+        // ButtonToEnable.interactable = following == PlanetToEnter;
+        ButtonToEnable.gameObject.SetActive(following == PlanetToEnter);
         maxZoom = following.GetComponent<GravityObject>().maxZoom;
         startChangeDist = new Vector2(following.transform.position.x - transform.position.x, following.transform.position.z - transform.position.z).sqrMagnitude;
     }

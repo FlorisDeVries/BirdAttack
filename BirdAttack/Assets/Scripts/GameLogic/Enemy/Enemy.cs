@@ -15,8 +15,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private Image _HPBar;
     private float _HPBar_width;
-    [SerializeField]
-    private float _maxHP = 20;
+    public float MaxHP = 20;
     private float _healthPoints;
 
     // Particles
@@ -44,13 +43,12 @@ public class Enemy : MonoBehaviour
     // Damage
     [SerializeField]
     private float _damage = 1;
-    [SerializeField]
-    private float _reward = 10;
+    public float Reward = 10;
     private Goal _goal;
 
     private void Start()
     {
-        _healthPoints = _maxHP;
+        _healthPoints = MaxHP;
         _HPBar_width = _HPBar.rectTransform.rect.width;
         GetWaypoint();
         _scale = transform.localScale;
@@ -116,7 +114,7 @@ public class Enemy : MonoBehaviour
     {
         // Hit by something that deals damage
         _healthPoints -= damage;
-        float value = _healthPoints / _maxHP * _HPBar_width;
+        float value = _healthPoints / MaxHP * _HPBar_width;
         _HPBar.rectTransform.sizeDelta = new Vector2(value, _HPBar.rectTransform.sizeDelta.y);
         if (_healthPoints <= 0)
         {
@@ -124,13 +122,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Die()
+    protected virtual void Die()
     {
         // Damn I died
         _isAlive = false;
         GetComponent<CapsuleCollider>().enabled = false;
         _animator.SetTrigger("Die");
-        CurrencyManager.Instance.AddToBank(_reward);
+        CurrencyManager.Instance.AddToBank(Reward);
         StartCoroutine(Despawn());
 
         GetComponentInChildren<Canvas>().enabled = false;
@@ -167,8 +165,14 @@ public class Enemy : MonoBehaviour
     {
         Instantiate(_deathParticles, transform.position + new Vector3(0, .25f, 0), transform.rotation);
         Instantiate(_deathParticles, transform.position - new Vector3(0, .25f, 0), transform.rotation);
-        if(_goal)
+        if (_goal)
             _goal.OnHit(_damage);
         Destroy(this.gameObject);
+    }
+
+    public void SetHP(float hp)
+    {
+        MaxHP = hp;
+        _healthPoints = hp;
     }
 }

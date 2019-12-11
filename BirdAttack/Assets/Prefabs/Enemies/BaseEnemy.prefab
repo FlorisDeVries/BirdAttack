@@ -2944,7 +2944,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _HPBar: {fileID: 1887600862}
-  _maxHP: 100
+  MaxHP: 100
   _deathParticles: {fileID: 8995691387720599650, guid: 11f15789914948d428602c03a50c0a58,
     type: 3}
   _speed: 2

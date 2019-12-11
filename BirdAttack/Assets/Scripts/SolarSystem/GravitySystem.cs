@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public enum BodyNames{ Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto };
 
-public class GravitySystem : MonoBehaviour
+public class GravitySystem : AwakeSingleton<GravitySystem>
 {
     
     public List<GravityObject> gravityObjects;
@@ -24,8 +24,11 @@ public class GravitySystem : MonoBehaviour
 
     public bool resetColliders = false;
 
-    void Awake(){
+
+    protected override void Awake() {
+        base.Awake();
         PopulateList();
+        SetTimeScale(1);
         unPauseGame();
     }
 
@@ -89,12 +92,13 @@ public class GravitySystem : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    public void SetTimeScale(float timeScale){
-        this.timeScale = timeScale;
-        string s = $"{timeScale * 10.0e9F:E4}";
+    public void SetTimeScale(float value){
+        value /= 10000000000f;
+        this.timeScale = value;
+        string s = $"{value * 10.0e9F:E1}";
         scaleValueText.text = $"{s.Split("E+".ToCharArray())[0]}x10<sup>{s.Split('+')[1].TrimStart('0')}</sup>";
         if(!paused)
-            Time.timeScale = timeScale;
+            Time.timeScale = value;
     }
 
     public GameObject GetPlanetByInt(int i){
@@ -114,6 +118,7 @@ public class GravitySystem : MonoBehaviour
     }
 
     public void GoToScene(string sceneName){
+        timeScale = 1;
         SceneManager.LoadScene(sceneName);
     }
 }

@@ -15,6 +15,8 @@ public class GameManager : AwakeSingleton<GameManager>
     [HideInInspector]
     public UnityEvent OnGameOver = new UnityEvent();
     private bool _gameOver = false;
+    [HideInInspector]
+    public UnityEvent OnVictory = new UnityEvent();
     public bool GameOver
     {
         get { return _gameOver; }
