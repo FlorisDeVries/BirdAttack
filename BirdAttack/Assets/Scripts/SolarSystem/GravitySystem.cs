@@ -109,14 +109,6 @@ public class GravitySystem : AwakeSingleton<GravitySystem>
         return gravityObjects.Find(a => a.name == s).gameObject;
     }
 
-    public void ResetScene(){
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    public void GoToNextLevel(){
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
     public void GoToScene(string sceneName){
         timeScale = 1;
         SceneManager.LoadScene(sceneName);

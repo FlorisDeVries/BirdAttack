@@ -16,7 +16,7 @@ public class PlanetScaler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float scale = Mathf.Min(1, CameraScripts.zoomLevel / maxZoomSize);
+        float scale = Mathf.Min(1, Camera.main.transform.position.y / maxZoomSize);
         scale = minScale + scale * (maxScale - minScale);
         transform.localScale = new Vector3(scale, scale, scale);
     }

@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class CameraScripts : MonoBehaviour
+public class CameraScripts : AwakeSingleton<CameraScripts>
 {
     public GameObject following;
     public GravitySystem gs;
@@ -15,18 +16,23 @@ public class CameraScripts : MonoBehaviour
     float startChangeDist = 1000;
 
     public GameObject PlanetToEnter;
+    public Transform Moon;
+    public CanvasGroup FadeGroup;
+    public bool Lerping = false;
+
     public Button ButtonToEnable;
 
     // Start is called before the first frame update
     void Start()
     {
         zoom = this.transform.position.y;
+        Lerping = false;
         ChangeFollow(0);
     }
 
     public void Follow(GameObject caller)
     {
-        if (caller != following)
+        if (caller != following || Lerping)
             return;
         else
         {
@@ -51,9 +57,31 @@ public class CameraScripts : MonoBehaviour
     public void ChangeFollow(int i)
     {
         following = gs.GetPlanetByInt(i);
-        // ButtonToEnable.interactable = following == PlanetToEnter;
         ButtonToEnable.gameObject.SetActive(following == PlanetToEnter);
         maxZoom = following.GetComponent<GravityObject>().maxZoom;
         startChangeDist = new Vector2(following.transform.position.x - transform.position.x, following.transform.position.z - transform.position.z).sqrMagnitude;
+    }
+
+    public void GoToTD()
+    {
+        StartCoroutine(Transition());
+    }
+
+    public IEnumerator Transition()
+    {
+        Lerping = true;
+        Time.timeScale = 1;
+        while (Vector3.Distance(Moon.position, transform.position) > 0.01f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(Moon.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2f * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, Moon.position, 2f * Time.deltaTime);
+            if (Vector3.Distance(Moon.position, transform.position) < 0.05f)
+            {
+                FadeGroup.alpha = Mathf.Lerp(FadeGroup.alpha, 1, 5f * Time.deltaTime);
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        SceneManager.LoadScene("TDScene");
     }
 }

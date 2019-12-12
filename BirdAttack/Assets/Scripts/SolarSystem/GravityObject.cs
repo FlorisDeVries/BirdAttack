@@ -63,11 +63,11 @@ public class GravityObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(fixated)
+        if(fixated || Camera.main.transform.position.y < 1f)
             return;
         this.gameObject.transform.position += velocity * Time.deltaTime;
 
-        Camera.main.GetComponent<CameraScripts>().Follow(gameObject);
+        CameraScripts.Instance.Follow(gameObject);
 
         if(trackLabel){
             // Scale the coordinates to screen
