@@ -21,6 +21,8 @@ public class CameraScripts : AwakeSingleton<CameraScripts>
     public bool Lerping = false;
 
     public Button ButtonToEnable;
+    public AudioSource Peep;
+    float sine = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -58,8 +60,18 @@ public class CameraScripts : AwakeSingleton<CameraScripts>
     {
         following = gs.GetPlanetByInt(i);
         ButtonToEnable.gameObject.SetActive(following == PlanetToEnter);
+        Peep.mute = following != PlanetToEnter;
         maxZoom = following.GetComponent<GravityObject>().maxZoom;
         startChangeDist = new Vector2(following.transform.position.x - transform.position.x, following.transform.position.z - transform.position.z).sqrMagnitude;
+    }
+
+    private void Update()
+    {
+        if (!Peep.mute)
+        {
+            sine += Time.fixedDeltaTime / 10;
+            Peep.panStereo = Mathf.Sin(sine);
+        }
     }
 
     public void GoToTD()
