@@ -94,6 +94,7 @@ public class WaveSpawner : AwakeSingleton<WaveSpawner>
             Enemy enemy = Instantiate(_baseEnemy, transform.position, transform.rotation).GetComponent<Enemy>();
             enemy.SetHP(enemy.MaxHP * ((int)(_waveCounter / 10) + 1));
             enemy.Reward *= ((int)(_waveCounter / 10) + 1);
+            enemy.Speed = 2 + 1 * (int)(_waveCounter / 5);
             yield return new WaitForSeconds(_spawnInterval);
         }
         yield return new WaitForSeconds(_consumeInterval);

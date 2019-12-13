@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.16113384, g: 0.6698113, b: 0.20951484, a: 0.85882354}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2950,7 +2950,7 @@ MonoBehaviour:
   _speed: 2
   _modelTrans: {fileID: 4212700793095169504}
   _damage: 1
-  _reward: 5
+  Reward: 10
 --- !u!54 &1141504232
 Rigidbody:
   m_ObjectHideFlags: 0

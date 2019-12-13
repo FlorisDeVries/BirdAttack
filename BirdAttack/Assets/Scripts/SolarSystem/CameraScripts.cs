@@ -19,6 +19,7 @@ public class CameraScripts : AwakeSingleton<CameraScripts>
     public Transform Moon;
     public CanvasGroup FadeGroup;
     public bool Lerping = false;
+    public bool initialLerp = false;
 
     public Button ButtonToEnable;
     public AudioSource Peep;
@@ -34,7 +35,7 @@ public class CameraScripts : AwakeSingleton<CameraScripts>
 
     public void Follow(GameObject caller)
     {
-        if (caller != following || Lerping)
+        if (caller != following || initialLerp)
             return;
         else
         {
@@ -81,13 +82,15 @@ public class CameraScripts : AwakeSingleton<CameraScripts>
 
     public IEnumerator Transition()
     {
-        Lerping = true;
+        initialLerp = true;
         Time.timeScale = 1;
         while (Vector3.Distance(Moon.position, transform.position) > 0.01f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(Moon.position - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2f * Time.deltaTime);
             transform.position = Vector3.Lerp(transform.position, Moon.position, 2f * Time.deltaTime);
+            if(transform.position.y < 1f)
+                Lerping = true;
             if (Vector3.Distance(Moon.position, transform.position) < 0.05f)
             {
                 FadeGroup.alpha = Mathf.Lerp(FadeGroup.alpha, 1, 5f * Time.deltaTime);

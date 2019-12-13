@@ -25,6 +25,10 @@ public class Enemy : MonoBehaviour
     // Movement
     [SerializeField]
     private float _speed = 2f;
+    public float Speed
+    {
+        set { _speed = value; }
+    }
     private int _waypointIndex = 0;
     private Transform _currentWaypoint;
     private Quaternion _targetRotation;

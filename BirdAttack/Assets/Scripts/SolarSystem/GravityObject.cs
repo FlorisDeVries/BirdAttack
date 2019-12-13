@@ -63,7 +63,7 @@ public class GravityObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(fixated || Camera.main.transform.position.y < 1f)
+        if(fixated || CameraScripts.Instance.Lerping)
             return;
         this.gameObject.transform.position += velocity * Time.deltaTime;
 

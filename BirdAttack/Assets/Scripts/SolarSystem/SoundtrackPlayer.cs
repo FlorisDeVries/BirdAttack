@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundtrackPlayer : MonoBehaviour
 {
-    AudioSource audio;
+    AudioSource source;
     public AudioClip[] clips;
     int clipIndex = 0;
     // Start is called before the first frame update
@@ -12,15 +12,18 @@ public class SoundtrackPlayer : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
         clipIndex = Random.Range(0, clips.Length);
-        audio = GetComponent<AudioSource>();
+        source = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(audio.isPlaying) return;
+        if(source.isPlaying) return;
         // Set a new track.
-        audio.clip = clips[clipIndex++];
-        audio.Play();
+        clipIndex++;
+        if(clipIndex >= clips.Length)
+            clipIndex = 0;
+        source.clip = clips[clipIndex];
+        source.Play();
     }
 }

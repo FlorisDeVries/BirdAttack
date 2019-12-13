@@ -11,11 +11,11 @@ public class VictoryPanel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.Instance.OnVictory.AddListener(OnGameOver);
+        GameManager.Instance.OnVictory.AddListener(OnVictory);
         this.gameObject.SetActive(false);
     }
 
-    private void OnGameOver()
+    private void OnVictory()
     {
         this.gameObject.SetActive(true);
         StartCoroutine(InitiazeValues());
